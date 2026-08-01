@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  IMAGE_NAME: dmnox/EdsyLinkShortener
+  IMAGE_NAME: dmnox/edsylinkshortener
 
 jobs:
   build:
@@ -73,8 +73,8 @@ jobs:
           key: ${{ secrets.PR_KEY }}
           script: |
             docker pull ${{ env.IMAGE_NAME }}:latest
-            docker stop sEdsyLinkShortener || true
-            docker rm sEdsyLinkShortener || true
-            docker run -d --name sEdsyLinkShortener --restart unless-stopped -p 8090:8090 \
-              -v sEdsyLinkShortener-data:/app/data \
+            docker stop edsylinkshortener || true
+            docker rm edsylinkshortener || true
+            docker run -d --name edsylinkshortener --restart unless-stopped -p 8090:8090 \
+              -v edsylinkshortener-data:/app/data \
               ${{ env.IMAGE_NAME }}:latest
