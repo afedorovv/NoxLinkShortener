@@ -44,15 +44,10 @@ jobs:
       - name: Build jar
         run: mvn -B -ntp package -DskipTests
 
-      - name: Install SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.PR_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H "${{ secrets.HOST_IP }}" >> ~/.ssh/known_hosts
-
-      - name: Upload jar
-        run: scp -i ~/.ssh/id_ed25519 target/sEdsyLinkShortener-1.0-SNAPSHOT.jar "${{ secrets.USER }}@${{ secrets.IP }}:/opt/sEdsyLinkShortener/app.jar"
-
-      - name: Restart service
-        run: ssh -i ~/.ssh/id_ed25519 "${{ secrets.USER }}@${{ secrets.IP }}" "systemctl restart EdsyLinkShortener || true"
+      - name: Remote deploy script
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.IP }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.PR_KEY }}
+          script: systemctl restart EdsyLinkShortener || true
