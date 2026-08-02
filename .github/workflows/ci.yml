@@ -76,5 +76,5 @@ jobs:
             docker stop edsylinkshortener || true
             docker rm edsylinkshortener || true
             docker run -d --name edsylinkshortener --restart unless-stopped -p 80:80 \
-              -v edsylinkshortener-data:/app/data \
+              -v /opt/edsylinkshortener/data:/app/data \
               ${{ env.IMAGE_NAME }}:latest
