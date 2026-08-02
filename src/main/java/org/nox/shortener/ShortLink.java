@@ -15,7 +15,7 @@ public class ShortLink {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 16)
+    @Column(nullable = false, unique = true, length = 64)
     private String code;
 
     @Column(nullable = false, unique = true, length = 2048)
