@@ -31,6 +31,15 @@ public class ShortenerController {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             return ResponseEntity.badRequest().body(Map.of("error", "url must be a valid http(s) link"));
         }
+        URI uri;
+        try {
+            uri = URI.create(url);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "url is not a valid URI"));
+        }
+        if (!"edsy.org".equalsIgnoreCase(uri.getHost())) {
+            return ResponseEntity.badRequest().body(Map.of("error", "url host must be edsy.org"));
+        }
         String code = urlShortener.shorten(url);
         String shortUrl = baseUrl(request) + "/s/" + code;
         return ResponseEntity.ok(Map.of("shortUrl", shortUrl, "code", code, "original", url));
