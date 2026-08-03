@@ -62,8 +62,6 @@ public class ShortenerController {
         if (!scheme.startsWith("https")) {
             scheme = "https";
         }
-        int port = request.getServerPort();
-        String defaultPort = ("https".equals(scheme) && port == 443) ? "" : ":" + port;
-        return scheme + "://" + request.getServerName() + defaultPort;
+        return scheme + "://" + request.getServerName();
     }
 }
