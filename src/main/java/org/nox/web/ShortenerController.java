@@ -59,8 +59,11 @@ public class ShortenerController {
     private String baseUrl(HttpServletRequest request) {
         String forwarded = request.getHeader("X-Forwarded-Proto");
         String scheme = forwarded != null ? forwarded : request.getScheme();
+        if (!scheme.startsWith("https")) {
+            scheme = "https";
+        }
         int port = request.getServerPort();
-        String defaultPort = ("http".equals(scheme) && port == 80) || ("https".equals(scheme) && port == 443) ? "" : ":" + port;
+        String defaultPort = ("https".equals(scheme) && port == 443) ? "" : ":" + port;
         return scheme + "://" + request.getServerName() + defaultPort;
     }
 }
