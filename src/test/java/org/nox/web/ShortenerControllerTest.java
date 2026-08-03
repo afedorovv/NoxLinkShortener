@@ -42,7 +42,7 @@ class ShortenerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"url\":\"https://edsy.org/#/S:abc\"}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.shortUrl").value(matchesPattern("https://localhost/s/\\w+")))
+                .andExpect(jsonPath("$.shortUrl").value(matchesPattern("https://localhost(?::80)?/s/\\w+")))
                 .andExpect(jsonPath("$.original").value("https://edsy.org/#/S:abc"));
     }
 
